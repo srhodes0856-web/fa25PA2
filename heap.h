@@ -16,12 +16,22 @@ struct MinHeap {
 
     void push(int idx, int weightArr[]) {
         // TODO: insert index at end of heap, restore order using upheap()
+        data[size] = idx;
+        upheap(size, weightArr);
+        size++;
     }
 
     int pop(int weightArr[]) {
         // TODO: remove and return smallest index
         // Replace root with last element, then call downheap()
-        return -1; // placeholder
+         if (size == 0) return -1;
+        int smallest = data[0];
+        size--;
+        if (size>0) {
+            data[0] = data[size];
+            downheap(0, weightArr);
+        }
+        return smallest;
     }
 
     void upheap(int pos, int weightArr[]) {
