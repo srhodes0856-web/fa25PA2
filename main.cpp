@@ -123,23 +123,47 @@ void generateCodes(int root, string codes[]) {
     // Left edge adds '0', right edge adds '1'.
     // Record code when a leaf node is reached.
     if (root == -1) return;
-    stack< pair<int, string> > st;
-    st.push(pair<int, string>(root, ""));
+    if (leftArr[root] == -1 && rightArr[root] == -1) {
+        if (charArr[root] >= 'a' && charArr[root] <= 'z') {
+            codes[charArr[root] - 'a'] = "0";
+        }
+        return;
+    }
 
-    while (!st.empty()) {
-        pair<int, string> topPair = st.top();
-        st.pop();
+    stack< pair<int, string> > stack;
+    stack.push(pair<int, string>(root, ""));
+    while (!stack.empty()) {
+        pair<int, string> pair = stack.top();
+        stack.pop();
+        int node = pair.first;
+        string path = pair.second;
 
-        int node = topPair.first;
-        string path = topPair.second;
         int left = leftArr[node];
         int right = rightArr[node];
-        bool isLeaf = (left == -1 && right == -1);
 
-        if (isLeaf) {
+        bool leaf = (left == -1 and right == -1);
+
+        if (leaf) {
+            if (charArr[node] >= 'a' and charArr[node] <= 'z') {
+                if (path.empty()) {
+                    codes[charArr[node] - 'a'] = "0";
+                }
+                else {
+                    codes[charArr[node] - 'a'] = path;
+                }
+            }
+        }
+        else {
+            if (right != -1) {
+                stack.push(std::pair<int, std::string>(right, path + "1"));
+            }
+            if (left != -1) {
+                stack.push(std::pair<int, std::string>(left, path + "0"));
+            }
 
         }
     }
+
 }
 
 // Step 5: Print table and encoded message
