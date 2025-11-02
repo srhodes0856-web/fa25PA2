@@ -99,9 +99,14 @@ int buildEncodingTree(int nextFree) {
     //    - Push new parent index back into the heap
     // 4. Return the index of the last remaining node (root)
     MinHeap heap;
+    if (nextFree >= MAX_NODES) {
+        cout << "Max nodes" << endl;
+        exit(1);
+    }
     for (int i =0; i < nextFree; ++i) {
         heap.push(i, weightArr);
     }
+    if (heap.size == 0) return -1;
     while (heap.size > 1) {
         int left = heap.pop(weightArr);
         int right = heap.pop(weightArr);
